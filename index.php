@@ -20,11 +20,11 @@ $baseCurrency = Currency::setBaseCurrency();
         <ul class="nav nav-pills">
         <?php
         foreach ($allCurrencies as $currency) {
-              if ( $currency['name'] ==  $baseCurrency) $class = 'class="active"';
+              if ( $currency['code'] ==  $baseCurrency) $class = 'class="active"';
               else $class = '';
             ?>
             <li role="presentation" <?=$class?>>
-                <a href="/?currency=<?=$currency['name']?>">
+                <a href="/?currency=<?=$currency['code']?>">
                     <span class="glyphicon glyphicon-<?=$currency['code']?>" aria-hidden="true"></span>
                 </a>
             </li>
@@ -33,19 +33,23 @@ $baseCurrency = Currency::setBaseCurrency();
         ?>
         </ul>
         <br>
-
         Текущий курс:
         <ul class="list-group">
-            <li class="list-group-item">
-                1<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> = 62.21<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-                <br><a href="#">курс за последние 5 дней</a>
-            </li>
-            <li class="list-group-item">
-                1<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> = 0.92<span class="glyphicon glyphicon-eur" aria-hidden="true"></span>
-                <br><a href="#">курс за последние 5 дней</a>
-            </li>
-        </ul>
+        <?php
+        $curr = new Currency(mb_strtoupper($baseCurrency));
+        foreach ($allCurrencies as $currency) {
+            if ( $currency['code'] != $baseCurrency ) {
+        ?>
+                <li class="list-group-item">
+                    1<span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true"></span> = <?=$curr->getRatesTo(mb_strtoupper($currency['code']))?>
+                    <span class="glyphicon glyphicon-<?=$currency['code']?>" aria-hidden="true"></span>
+                    <br><a href="#">курс за последние 5 дней</a>
+                </li>
 
+        <?php }
+        }
+        ?>
+        </ul>
         <br>
 
     </div>

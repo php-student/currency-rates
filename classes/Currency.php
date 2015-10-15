@@ -1,24 +1,32 @@
 <?php
 
 class Currency {
-    public $code; # usd
+    //public $code; # usd
     public $name; # USD
 
-    public function __construct($code, $name) {
-        $this->code = $code;
+    public function __construct($name) {
+        //$this->code = $code;
         $this->name = $name;
     }
-
     public static function setBaseCurrency() {
         if ( isset($_GET['currency']) ) {
             $baseCurrency = $_GET['currency'];
         } else {
             if ( isset($_COOKIE['currency']) ) {
                 $baseCurrency = $_COOKIE['currency'];
-            } else $baseCurrency = 'USD';
+            } else $baseCurrency = 'usd';
         }
         setcookie('currency', $baseCurrency, time()+ 60*60*24*30, '/');
         return $baseCurrency;
     }
+    public function getRatesTo($overCurrency) {
+        $base = $this->name;
+        $api = "http://api.fixer.io/latest?base={$base}";
+        $json_string = file_get_contents($api);
+        $ar = json_decode($json_string, true);
+        return $ar['rates'][$overCurrency];
+    }
 
 }
+
+

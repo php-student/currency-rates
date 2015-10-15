@@ -1,8 +1,7 @@
 <?php
 
 class Currency {
-    //public $code; # usd
-    public $name; # USD
+    public $name; # for example USD
 
     public function __construct($name) {
         //$this->code = $code;

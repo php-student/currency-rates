@@ -41,9 +41,10 @@ $baseCurrency = Currency::setBaseCurrency();
             if ( $currency['code'] != $baseCurrency ) {
         ?>
                 <li class="list-group-item">
-                    1<span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true"></span> = <?=$curr->getRatesTo(mb_strtoupper($currency['code']))?>
+                    1<span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true">
+                    </span> = <?=$curr->getRatesTo(mb_strtoupper($currency['code']))?>
                     <span class="glyphicon glyphicon-<?=$currency['code']?>" aria-hidden="true"></span>
-                    <br><a href="#">курс за последние 5 дней</a>
+                    <br><a href="history.php?in_currency=<?=$currency['code']?>">курс за последние 5 дней</a>
                 </li>
 
         <?php }
@@ -51,9 +52,7 @@ $baseCurrency = Currency::setBaseCurrency();
         ?>
         </ul>
         <br>
-
     </div>
-
 
     <div class="row">
         Онлайн конвертация в рубли:<br>

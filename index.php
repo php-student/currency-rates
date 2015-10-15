@@ -1,4 +1,8 @@
 <?php
+require(__DIR__ . '/apps/core.php');
+$allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
+$baseCurrency = Currency::setBaseCurrency();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,26 +14,24 @@
 </head>
 <body>
 <div class="container">
+
     <div class="row">
         Базовая валюта:
         <ul class="nav nav-pills">
-            <li role="presentation" class="active">
-                <a href="#">
-                    <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+        <?php
+        foreach ($allCurrencies as $currency) {
+              if ( $currency['name'] ==  $baseCurrency) $class = 'class="active"';
+              else $class = '';
+            ?>
+            <li role="presentation" <?=$class?>>
+                <a href="/?currency=<?=$currency['name']?>">
+                    <span class="glyphicon glyphicon-<?=$currency['code']?>" aria-hidden="true"></span>
                 </a>
             </li>
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-eur" aria-hidden="true"></span>
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-                </a>
-            </li>
+        <?php
+        }
+        ?>
         </ul>
-
         <br>
 
         Текущий курс:

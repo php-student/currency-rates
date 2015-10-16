@@ -1,7 +1,9 @@
 <?php
 require(__DIR__ . '/apps/core.php');
-$allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
-$baseCurrency = Currency::setBaseCurrency();
+//$allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
+$currencyData = new CurrencyData;
+$arrCurrencies = $currencyData->getArrCurrencies();
+$baseCurrencyCode = Currency::setBaseCurrency();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,13 +21,13 @@ $baseCurrency = Currency::setBaseCurrency();
         Базовая валюта:
         <ul class="nav nav-pills">
         <?php
-        foreach ($allCurrencies as $currency) {
-              if ( $currency['code'] ==  $baseCurrency) $class = 'class="active"';
+        foreach ($arrCurrencies as $currencyCode) {
+              if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
               else $class = '';
             ?>
             <li role="presentation" <?=$class?>>
-                <a href="/?currency=<?=$currency['code']?>">
-                    <span class="glyphicon glyphicon-<?=$currency['code']?>" aria-hidden="true"></span>
+                <a href="/?currency=<?=$currencyCode?>">
+                    <span class="glyphicon glyphicon-<?=$currencyCode?>" aria-hidden="true"></span>
                 </a>
             </li>
         <?php
@@ -36,15 +38,15 @@ $baseCurrency = Currency::setBaseCurrency();
         Текущий курс:
         <ul class="list-group">
         <?php
-        $curr = new Currency(mb_strtoupper($baseCurrency));
-        foreach ($allCurrencies as $currency) {
-            if ( $currency['code'] !== $baseCurrency ) {
+        $selectedCurrency = new Currency(strtoupper($baseCurrencyCode));
+        foreach ($arrCurrencies as $currencyCode) {
+            if ( $currencyCode !== $baseCurrencyCode ) {
         ?>
                 <li class="list-group-item">
-                    1<span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true">
-                    </span> = <?=$curr->getRatesTo(mb_strtoupper($currency['code']))?>
-                    <span class="glyphicon glyphicon-<?=$currency['code']?>" aria-hidden="true"></span>
-                    <br><a href="history.php?in_currency=<?=$currency['code']?>">курс за последние 5 дней</a>
+                    1<span class="glyphicon glyphicon-<?=$baseCurrencyCode?>" aria-hidden="true">
+                    </span> = <?=$selectedCurrency->getRatesTo(strtoupper($currencyCode))?>
+                    <span class="glyphicon glyphicon-<?=$currencyCode?>" aria-hidden="true"></span>
+                    <br><a href="history.php?in_currency=<?=$currencyCode?>">курс за последние 5 дней</a>
                 </li>
 
         <?php }
@@ -56,13 +58,13 @@ $baseCurrency = Currency::setBaseCurrency();
 
     <div class="row">
         <?php
-        if ( isset($baseCurrency) && $baseCurrency !== 'rub') {
-            $ttt = new Currency($baseCurrency);
-            $eee = $ttt->getRatesTo('RUB');
+        if ( isset($baseCurrencyCode) && $baseCurrencyCode !== 'rub') {
+            //$selectedCurrency = new Currency($baseCurrencyCode);
+            $rate = $selectedCurrency->getRatesTo('RUB');
             $placeholder1 = '1';
-            $placeholder2 = $eee;
+            $placeholder2 = $rate;
             if ( isset($_POST['sum']) && !empty($_POST['sum']) ) {
-                $exchangeSum = $ttt->calculate($_POST['sum']);
+                $exchangeSum = $selectedCurrency->calculate($_POST['sum'], 'RUB');
                 $placeholder1 = $_POST['sum'];
                 $placeholder2 = $exchangeSum;
             }
@@ -73,7 +75,7 @@ $baseCurrency = Currency::setBaseCurrency();
                     <div class="input-group">
                         <input name="sum" type="text" class="form-control" placeholder="<?=$placeholder1?>">
                     <span class="input-group-addon">
-                       <span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true"></span>
+                       <span class="glyphicon glyphicon-<?=$baseCurrencyCode?>" aria-hidden="true"></span>
                     </span>
                     </div>
                 </div>

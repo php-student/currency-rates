@@ -1,8 +1,11 @@
 <?php
 session_start();
 require(__DIR__ . '/apps/core.php');
-$allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
-$baseCurrency = Currency::setBaseCurrency();
+//$allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
+//$baseCurrency = Currency::setBaseCurrency();
+$currencyData = new CurrencyData;
+$arrCurrencies = $currencyData->getArrCurrencies();
+$baseCurrencyCode = Currency::setBaseCurrency();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,37 +22,37 @@ $baseCurrency = Currency::setBaseCurrency();
         Базовая валюта:
         <ul class="nav nav-pills">
             <?php
-            foreach ($allCurrencies as $currency) {
-                if ( $currency['code'] ==  $baseCurrency) $class = 'class="active"';
-                else $class = '';
-                ?>
+            foreach ($arrCurrencies as $currencyCode) {
+              if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
+              else $class = '';
+            ?>
                 <li role="presentation" <?=$class?>>
-                    <a href="/history.php?currency=<?=$currency['code']?>">
-                        <span class="glyphicon glyphicon-<?=$currency['code']?>" aria-hidden="true"></span>
+                    <a href="/history.php?currency=<?=$currencyCode?>">
+                    <span class="glyphicon glyphicon-<?=$currencyCode?>" aria-hidden="true"></span>
                     </a>
                 </li>
-                <?php
+            <?php
             }
             ?>
         </ul>
         <br>
         <?php
-        $fromCurrency = new History($baseCurrency, 5);
+        $selectedCurrency = new History($baseCurrencyCode, 5);
         $inCurrency = $_SESSION['in_currency'];
         if ( isset($_GET['in_currency']) ) {
             $inCurrency = $_GET['in_currency'];
             $_SESSION['in_currency'] = $inCurrency;
         }
         ?>
-        Курс <?=strtoupper($baseCurrency)?>/<?=strtoupper($inCurrency)?> за последние 5 дней:
+        Курс <?=strtoupper($baseCurrencyCode)?>/<?=strtoupper($inCurrency)?> за последние 5 дней:
         <ul class="list-group">
         <?php
-            $historyArr = $fromCurrency->getHistoryArr(mb_strtoupper($inCurrency));
+            $historyArr = $selectedCurrency->getHistoryArr(strtoupper($inCurrency));
             foreach ($historyArr as $date => $value) {
                 ?>
                 <li class="list-group-item">
                     <strong><?= $date ?></strong>:<br>
-                    1<span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true"></span> = <?=$value?>
+                    1<span class="glyphicon glyphicon-<?=$baseCurrencyCode?>" aria-hidden="true"></span> = <?=$value?>
                     <span class="glyphicon glyphicon-<?=$inCurrency?>" aria-hidden="true"></span>
                 </li>
                 <?php

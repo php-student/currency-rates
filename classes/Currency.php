@@ -18,15 +18,15 @@ class Currency {
         setcookie('currency', $baseCurrency, time()+ 60*60*24*30, '/');
         return $baseCurrency;
     }
-    public function getRatesTo($overCurrency) {
+    public function getRatesTo($currencyCode) {
         $base = $this->name;
         $api = "http://api.fixer.io/latest?base={$base}";
         $json_string = file_get_contents($api);
         $ar = json_decode($json_string, true);
-        return $ar['rates'][$overCurrency];
+        return $ar['rates'][$currencyCode];
     }
-    public function calculate($sum) {
-        $rates = $this->getRatesTo('RUB');
+    public function calculate($sum, $currencyCode) {
+        $rates = $this->getRatesTo($currencyCode);
         return ($sum * $rates);
     }
 }

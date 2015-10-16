@@ -25,7 +25,9 @@ class Currency {
         $ar = json_decode($json_string, true);
         return $ar['rates'][$overCurrency];
     }
-
+    public function calculate($sum) {
+        $rates = $this->getRatesTo('RUB');
+        return ($sum * $rates);
+    }
 }
-
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require(__DIR__ . '/apps/core.php');
 $allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
 $baseCurrency = Currency::setBaseCurrency();
@@ -32,12 +33,17 @@ $baseCurrency = Currency::setBaseCurrency();
             ?>
         </ul>
         <br>
-        Курс за последние 5 дней:
-        <ul class="list-group">
         <?php
         $fromCurrency = new History($baseCurrency, 5);
-        $inCurrency = 'usd';
-        if ( isset($_GET['in_currency']) ) $inCurrency = $_GET['in_currency'];
+        $inCurrency = $_SESSION['in_currency'];
+        if ( isset($_GET['in_currency']) ) {
+            $inCurrency = $_GET['in_currency'];
+            $_SESSION['in_currency'] = $inCurrency;
+        }
+        ?>
+        Курс <?=strtoupper($baseCurrency)?>/<?=strtoupper($inCurrency)?> за последние 5 дней:
+        <ul class="list-group">
+        <?php
             $historyArr = $fromCurrency->getHistoryArr(mb_strtoupper($inCurrency));
             foreach ($historyArr as $date => $value) {
                 ?>

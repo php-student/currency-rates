@@ -1,6 +1,5 @@
 <?php
 require(__DIR__ . '/apps/core.php');
-//$allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
 $currencyData = new CurrencyData;
 $arrCurrencies = $currencyData->getArrCurrencies();
 $baseCurrencyCode = Currency::setBaseCurrency();
@@ -27,7 +26,7 @@ $baseCurrencyCode = Currency::setBaseCurrency();
             ?>
             <li role="presentation" <?=$class?>>
                 <a href="/?currency=<?=$currencyCode?>">
-                    <span class="glyphicon glyphicon-<?=$currencyCode?>" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-<?=strtolower($currencyCode)?>" aria-hidden="true"></span>
                 </a>
             </li>
         <?php
@@ -38,14 +37,14 @@ $baseCurrencyCode = Currency::setBaseCurrency();
         Текущий курс:
         <ul class="list-group">
         <?php
-        $selectedCurrency = new Currency(strtoupper($baseCurrencyCode));
+        $selectedCurrency = new Currency($baseCurrencyCode);
         foreach ($arrCurrencies as $currencyCode) {
             if ( $currencyCode !== $baseCurrencyCode ) {
         ?>
                 <li class="list-group-item">
-                    1<span class="glyphicon glyphicon-<?=$baseCurrencyCode?>" aria-hidden="true">
-                    </span> = <?=$selectedCurrency->getRatesTo(strtoupper($currencyCode))?>
-                    <span class="glyphicon glyphicon-<?=$currencyCode?>" aria-hidden="true"></span>
+                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrencyCode)?>" aria-hidden="true">
+                    </span> = <?=$selectedCurrency->getRatesTo($currencyCode)?>
+                    <span class="glyphicon glyphicon-<?=strtolower($currencyCode)?>" aria-hidden="true"></span>
                     <br><a href="history.php?in_currency=<?=$currencyCode?>">курс за последние 5 дней</a>
                 </li>
 
@@ -75,7 +74,7 @@ $baseCurrencyCode = Currency::setBaseCurrency();
                     <div class="input-group">
                         <input name="sum" type="text" class="form-control" placeholder="<?=$placeholder1?>">
                     <span class="input-group-addon">
-                       <span class="glyphicon glyphicon-<?=$baseCurrencyCode?>" aria-hidden="true"></span>
+                       <span class="glyphicon glyphicon-<?=strtolower($baseCurrencyCode)?>" aria-hidden="true"></span>
                     </span>
                     </div>
                 </div>

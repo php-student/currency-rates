@@ -28,7 +28,7 @@ $baseCurrencyCode = Currency::setBaseCurrency();
             ?>
                 <li role="presentation" <?=$class?>>
                     <a href="/history.php?currency=<?=$currencyCode?>">
-                    <span class="glyphicon glyphicon-<?=$currencyCode?>" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-<?=strtolower($currencyCode)?>" aria-hidden="true"></span>
                     </a>
                 </li>
             <?php
@@ -52,8 +52,8 @@ $baseCurrencyCode = Currency::setBaseCurrency();
                 ?>
                 <li class="list-group-item">
                     <strong><?= $date ?></strong>:<br>
-                    1<span class="glyphicon glyphicon-<?=$baseCurrencyCode?>" aria-hidden="true"></span> = <?=$value?>
-                    <span class="glyphicon glyphicon-<?=$inCurrency?>" aria-hidden="true"></span>
+                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrencyCode)?>" aria-hidden="true"></span> = <?=$value?>
+                    <span class="glyphicon glyphicon-<?=strtolower($inCurrency)?>" aria-hidden="true"></span>
                 </li>
                 <?php
             }

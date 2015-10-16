@@ -13,7 +13,7 @@ class Currency {
         } else {
             if ( isset($_COOKIE['currency']) ) {
                 $baseCurrency = $_COOKIE['currency'];
-            } else $baseCurrency = 'usd';
+            } else $baseCurrency = 'USD';
         }
         setcookie('currency', $baseCurrency, time()+ 60*60*24*30, '/');
         return $baseCurrency;
@@ -28,6 +28,16 @@ class Currency {
     public function calculate($sum, $currencyCode) {
         $rates = $this->getRatesTo($currencyCode);
         return ($sum * $rates);
+    }
+    public static function getArrCurrenciesFromApi() {
+        $result = array();
+        $api = 'http://api.fixer.io/latest';
+        $json_string = file_get_contents($api);
+        $ar = json_decode($json_string, true);
+        foreach ($ar['rates'] as $key => $value) {
+            $result[] = $key;
+        }
+        return $result;
     }
 }
 

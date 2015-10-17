@@ -1,8 +1,6 @@
 <?php
 session_start();
 require(__DIR__ . '/apps/core.php');
-//$allCurrencies = require(__DIR__ . '/data/dbCurrencies.php');
-//$baseCurrency = Currency::setBaseCurrency();
 $currencyData = new CurrencyData;
 $arrCurrencies = $currencyData->getArrCurrencies();
 $baseCurrencyCode = Currency::setBaseCurrency();

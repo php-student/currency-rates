@@ -3,15 +3,18 @@ require(__DIR__ . '/../apps/core.php');
 $currencyData = new CurrencyData;
 $arrCurrencies = $currencyData->getArrCurrencies();
 $arrCurrenciesFromApi = Currency::getArrCurrenciesFromApi();
+
 $addDel = new CurrencyData;
 if ( isset($_GET['add']) && !empty($_GET['add']) ) {
-    $addDel->addCurrency($_GET['add']);
-    header('location: /admin/index.php');
+    if ( $addDel->addCurrency($_GET['add']) ) {
+        header('location: /admin/index.php');
+    } else echo 'Ошибка добавления';
 }
 elseif ( isset($_GET['del']) && !empty($_GET['del']) ) {
-    if ($_COOKIE['currency'] == $_GET['del'] ) setcookie( "currency", '', time() - 10, '/');
-    $addDel->delCurrency($_GET['del']);
-    header('location: /admin/index.php');
+    if ( $addDel->delCurrency($_GET['del']) ) {
+        setcookie( "currency", '', time() - 10, '/');
+        header('location: /admin/index.php');
+    } else echo 'Ошибка удаления';
 }
 ?>
 <!DOCTYPE html>

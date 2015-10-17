@@ -16,11 +16,14 @@ class CurrencyData {
         return $result;
     }
     public function addCurrency($currencyCode) {
-        //$data = $this->_connect->query("INSERT INTO '".self::TABLE_NAME."' (`code`, `name`) VALUES ('".$currencyCode."', '')");
-        $data = $this->_connect->query("INSERT INTO ".self::TABLE_NAME." (`code`, `name`) VALUES ('".$currencyCode."', '')");
+        if ( $data = $this->_connect->query("INSERT INTO ".self::TABLE_NAME." (`code`, `name`) VALUES ('".$currencyCode."', '')") ) {
+            return true;
+        } else return false;
 
     }
     public function delCurrency($currencyCode) {
-        $data = $this->_connect->query("DELETE FROM ".self::TABLE_NAME." WHERE `code` = '".$currencyCode."'");
+        if ( $data = $this->_connect->query("DELETE FROM ".self::TABLE_NAME." WHERE `code` = '".$currencyCode."'") ) {
+            return true;
+        } else return false;
     }
 }

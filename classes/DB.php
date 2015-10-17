@@ -4,9 +4,7 @@ class DB {
     const DB_NAME = 'currency_rates';
     const DB_USER = 'root';
     const DB_PASS = 'root';
-    /**
-     * @return false|PDO
-     */
+    
     public static function getConnection() {
         $host = self::DB_HOST;
         $name = self::DB_NAME;

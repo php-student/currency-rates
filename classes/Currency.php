@@ -1,11 +1,10 @@
 <?php
 
 class Currency {
-    public $name; # for example USD
+    public $code; # for example USD
 
-    public function __construct($name) {
-        //$this->code = $code;
-        $this->name = $name;
+    public function __construct($code) {
+        $this->code = $code;
     }
     public static function setBaseCurrency() {
         if ( isset($_GET['currency']) ) {
@@ -19,15 +18,22 @@ class Currency {
         return $baseCurrency;
     }
     public function getRatesTo($currencyCode) {
-        $base = $this->name;
-        $api = "http://api.fixer.io/latest?base={$base}";
+        $code = $this->code;
+        $api = "http://api.fixer.io/latest?base={$code}";
         $json_string = file_get_contents($api);
         $ar = json_decode($json_string, true);
         return $ar['rates'][$currencyCode];
     }
+    public function validatePOSTdata($value) {
+        if ( preg_match("/^[.,0-9]{1,30}$/", $value) ) {
+            return true;
+        } else return false;
+    }
     public function calculate($sum, $currencyCode) {
-        $rates = $this->getRatesTo($currencyCode);
-        return ($sum * $rates);
+        if ( $this->validatePOSTdata($sum) ) {
+            $rates = $this->getRatesTo($currencyCode);
+            return ($sum * $rates);
+        } else return 'Ошибка ввода!';
     }
     public static function getArrCurrenciesFromApi() {
         $result = array();
@@ -40,4 +46,3 @@ class Currency {
         return $result;
     }
 }
-

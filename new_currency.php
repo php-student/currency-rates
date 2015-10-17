@@ -10,7 +10,7 @@ $currency_repo=$currency_obj->getCurrency();
 //unset($_POST['currency']);
 
 if(isset($_POST['currency'])){
-    echo $_POST['currency'];
+    //echo $_POST['currency'];
     if(!$currency_obj->CurrencyAdd($_POST['currency'])){
         if(isset($_SESSION)){
             $error=$_SESSION;

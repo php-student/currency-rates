@@ -4,12 +4,12 @@ $currencyData = new CurrencyData;
 $arrCurrencies = $currencyData->getArrCurrencies();
 $arrCurrenciesFromApi = Currency::getArrCurrenciesFromApi();
 $addDel = new CurrencyData;
-if ( isset($_GET['add']) ) {
+if ( isset($_GET['add']) && !empty($_GET['add']) ) {
     $addDel->addCurrency($_GET['add']);
     header('location: /admin/index.php');
 }
-elseif ( isset($_GET['del']) ) {
-    if ($_COOKIE['currency'] == $_GET['del'] ) setcookie('currency', 'USD', time()+ 60*60*24*30, '/');
+elseif ( isset($_GET['del']) && !empty($_GET['del']) ) {
+    if ($_COOKIE['currency'] == $_GET['del'] ) setcookie( "currency", '', time() - 10, '/');
     $addDel->delCurrency($_GET['del']);
     header('location: /admin/index.php');
 }
@@ -34,6 +34,9 @@ elseif ( isset($_GET['del']) ) {
 
                 $getCurrencyCode = $currencyCode;
 
+                if ($currencyCode !== 'EUR') $link="/admin/index.php?del={$getCurrencyCode}";
+                else $link='#';
+
                 if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
                 else $class = '';
 
@@ -43,7 +46,7 @@ elseif ( isset($_GET['del']) ) {
                 } else $glyphicon = '';
             ?>
             <li role="presentation">
-                <a href="/admin/index.php?del=<?=$getCurrencyCode?>">
+                <a href="<?=$link?>">
                     <span class="glyphicon glyphicon-<?=strtolower($glyphicon)?>" aria-hidden="true"><?=$currencyCode?></span>
                 </a>
             </li>

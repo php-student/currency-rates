@@ -1,3 +1,12 @@
+<?php
+require( __DIR__ . '/data/functions.php');
+$baseCurrency = getBaseCurrency();
+setBaseCurrency($baseCurrency);
+echo $baseCurrency;
+$currenses = array('USD','EUR','RUB');
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +66,7 @@
 
         <br>
 
-        <a href="#">на главную</a>
+        <a href="/">на главную</a>
     </div>
 </div>
 </body>

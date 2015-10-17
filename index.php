@@ -13,34 +13,9 @@ require( __DIR__ . '/app/core.php');
 <body>
 <div class="container">
     <div class="row">
-        Базовая валюта:
-        <ul class="nav nav-pills">
-            <?php
-            foreach($currenses as $c){
-                $a = '';
-                $a = $c==$baseCurrency ? 'active' : '';
-            ?>
-            <li role="presentation" class="<?=$a?>" >
-                <a href="/?baseCurrency=<?=$c?>">
-                    <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
-                </a>
-            </li>
-            <?php
-            }
-            ?>
-            <!--
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
-                </a>
-            </li>
-            -->
-        </ul>
+        <?php
+        include "data/base.txt";
+        ?>
 
         <br>
 
@@ -59,7 +34,7 @@ echo currencyExchange($baseCurrency, $currency);
                 <li class="list-group-item">
                     1<span class="glyphicon glyphicon-<?= $baseCurrency ?>" aria-hidden="true"></span> = <?=currencyExchange($baseCurrency, $c)?><span
                         class="glyphicon glyphicon-<?= $c ?>" aria-hidden="true"></span>
-                    <br><a href="/history.php">курс за последние 5 дней</a>
+                    <br><a href="/history.php?thisCurrency=<?=$c?>">курс за последние 5 дней</a>
                 </li>
                 <?php
             }

@@ -10,3 +10,4 @@ $baseCurrency = getBaseCurrency();
 setBaseCurrency($baseCurrency);
 echo $baseCurrency;
 $currenses = array('USD','EUR','RUB');
+session_start();

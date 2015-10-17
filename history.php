@@ -1,9 +1,6 @@
 <?php
-require( __DIR__ . '/data/functions.php');
-$baseCurrency = getBaseCurrency();
-setBaseCurrency($baseCurrency);
-echo $baseCurrency;
-$currenses = array('USD','EUR','RUB');
+require( __DIR__ . '/app/core.php');
+$thisCurrency = getCurrency();
 ?>
 
 
@@ -21,47 +18,39 @@ $currenses = array('USD','EUR','RUB');
     <div class="row">
         Базовая валюта:
         <ul class="nav nav-pills">
-            <li role="presentation" class="active">
-                <a href="#">
-                    <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-eur" aria-hidden="true"></span>
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-                </a>
-            </li>
+            <?php
+            foreach($currenses as $c){
+                if($c == $thisCurrency){
+                    continue;
+                }
+                $a = '';
+                $a = $c==$baseCurrency ? 'active' : '';
+                ?>
+                <li role="presentation" class="<?=$a?>" >
+                    <a href="/history.php?baseCurrency=<?=$c?>">
+                        <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
+                    </a>
+                </li>
+                <?php
+            }
+            ?>
         </ul>
-
         <br>
 
         Курс за последние 5 дней:
         <ul class="list-group">
-            <li class="list-group-item">
-                <strong>13.10.2015</strong>:<br>
-                1<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> = 62.21<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-            </li>
-            <li class="list-group-item">
-                <strong>12.10.2015</strong>:<br>
-                1<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> = 62.21<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-            </li>
-            <li class="list-group-item">
-                <strong>11.10.2015</strong>:<br>
-                1<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> = 62.21<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-            </li>
-            <li class="list-group-item">
-                <strong>10.10.2015</strong>:<br>
-                1<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> = 62.21<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-            </li>
-            <li class="list-group-item">
-                <strong>09.10.2015</strong>:<br>
-                1<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> = 62.21<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
-            </li>
+            <?php
+
+            foreach(last5days() as $lastday) {
+                ?>
+                <li class="list-group-item">
+                    <strong><?=$lastday?></strong>:<br>
+                    1<span class="glyphicon glyphicon-<?=$baseCurrency ?>" aria-hidden="true"></span><?=lastCurrencyExchange($baseCurrency,$thisCurrency,$lastday)?><span
+                        class="glyphicon glyphicon-<?=$thisCurrency?>" aria-hidden="true"></span>
+                </li>
+                <?php
+            }
+            ?>
         </ul>
 
         <br>

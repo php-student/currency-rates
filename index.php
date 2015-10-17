@@ -21,12 +21,20 @@ $baseCurrencyCode = Currency::setBaseCurrency();
         <ul class="nav nav-pills">
         <?php
         foreach ($arrCurrencies as $currencyCode) {
-              if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
-              else $class = '';
+
+            $getCurrencyCode = $currencyCode;
+
+            if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
+            else $class = '';
+
+            if ($currencyCode == 'RUB' || $currencyCode == 'USD' || $currencyCode == 'EUR' || $currencyCode == 'GBP') {
+                $glyphicon = $currencyCode;
+                $currencyCode = '';
+            } else $glyphicon = '';    
             ?>
             <li role="presentation" <?=$class?>>
-                <a href="/?currency=<?=$currencyCode?>">
-                    <span class="glyphicon glyphicon-<?=strtolower($currencyCode)?>" aria-hidden="true"></span>
+                <a href="/?currency=<?=$getCurrencyCode?>">
+                    <span class="glyphicon glyphicon-<?=strtolower($glyphicon)?>" aria-hidden="true"><?=$currencyCode?></span>
                 </a>
             </li>
         <?php
@@ -39,13 +47,15 @@ $baseCurrencyCode = Currency::setBaseCurrency();
         <?php
         $selectedCurrency = new Currency($baseCurrencyCode);
         foreach ($arrCurrencies as $currencyCode) {
+
             if ( $currencyCode !== $baseCurrencyCode ) {
+                 $switchedTo = new SwitchCodeGlyp($baseCurrencyCode, $currencyCode);
         ?>
                 <li class="list-group-item">
-                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrencyCode)?>" aria-hidden="true">
-                    </span> = <?=$selectedCurrency->getRatesTo($currencyCode)?>
-                    <span class="glyphicon glyphicon-<?=strtolower($currencyCode)?>" aria-hidden="true"></span>
-                    <br><a href="history.php?in_currency=<?=$currencyCode?>">курс за последние 5 дней</a>
+                    1<span class="glyphicon glyphicon-<?=strtolower($switchedTo->glyphiconBase)?>" aria-hidden="true"><?=$switchedTo->base?>
+                    </span> = <?=$selectedCurrency->getRatesTo($switchedTo->currencyCode)?>
+                    <span class="glyphicon glyphicon-<?=strtolower($switchedTo->glyphicon)?>" aria-hidden="true"><?=$switchedTo->in?></span>
+                    <br><a href="history.php?in_currency=<?=$switchedTo->currencyCode?>">курс за последние 5 дней</a>
                 </li>
 
         <?php }
@@ -57,8 +67,8 @@ $baseCurrencyCode = Currency::setBaseCurrency();
 
     <div class="row">
         <?php
-        if ( isset($baseCurrencyCode) && $baseCurrencyCode !== 'rub') {
-            //$selectedCurrency = new Currency($baseCurrencyCode);
+        if ( isset($baseCurrencyCode) && $baseCurrencyCode !== 'RUB') {
+            $switchedTo = new SwitchCodeGlyp($baseCurrencyCode, RUB);
             $rate = $selectedCurrency->getRatesTo('RUB');
             $placeholder1 = '1';
             $placeholder2 = $rate;
@@ -74,7 +84,7 @@ $baseCurrencyCode = Currency::setBaseCurrency();
                     <div class="input-group">
                         <input name="sum" type="text" class="form-control" placeholder="<?=$placeholder1?>">
                     <span class="input-group-addon">
-                       <span class="glyphicon glyphicon-<?=strtolower($baseCurrencyCode)?>" aria-hidden="true"></span>
+                       <span class="glyphicon glyphicon-<?=strtolower($switchedTo->glyphiconBase)?>" aria-hidden="true"><?=$switchedTo->base?></span>
                     </span>
                     </div>
                 </div>
@@ -85,8 +95,7 @@ $baseCurrencyCode = Currency::setBaseCurrency();
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="<?=$placeholder2?>" disabled>
                     <span class="input-group-addon">
-
-                        <span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-<?=strtolower($switchedTo->glyphicon)?>" aria-hidden="true"><?=$switchedTo->in?></span>
                     </span>
                     </div>
                 </div>

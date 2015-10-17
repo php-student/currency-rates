@@ -22,23 +22,33 @@ $baseCurrencyCode = Currency::setBaseCurrency();
         Базовая валюта:
         <ul class="nav nav-pills">
             <?php
-            foreach ($arrCurrencies as $currencyCode) {
-              if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
-              else $class = '';
+        foreach ($arrCurrencies as $currencyCode) {
+
+            $getCurrencyCode = $currencyCode;
+
+            if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
+            else $class = '';
+
+            if ($currencyCode == 'RUB' || $currencyCode == 'USD' || $currencyCode == 'EUR' || $currencyCode == 'GBP') {
+                $glyphicon = $currencyCode;
+                $currencyCode = '';
+            } else $glyphicon = '';    
             ?>
-                <li role="presentation" <?=$class?>>
-                    <a href="/history.php?currency=<?=$currencyCode?>">
-                    <span class="glyphicon glyphicon-<?=strtolower($currencyCode)?>" aria-hidden="true"></span>
-                    </a>
-                </li>
-            <?php
-            }
-            ?>
+            <li role="presentation" <?=$class?>>
+                <a href="/history.php?currency=<?=$getCurrencyCode?>">
+                    <span class="glyphicon glyphicon-<?=strtolower($glyphicon)?>" aria-hidden="true"><?=$currencyCode?></span>
+                </a>
+            </li>
+        <?php
+        }
+        ?>
         </ul>
         <br>
         <?php
         $selectedCurrency = new History($baseCurrencyCode, 5);
+
         $inCurrency = $_SESSION['in_currency'];
+        
         if ( isset($_GET['in_currency']) ) {
             $inCurrency = $_GET['in_currency'];
             $_SESSION['in_currency'] = $inCurrency;
@@ -47,13 +57,14 @@ $baseCurrencyCode = Currency::setBaseCurrency();
         Курс <?=strtoupper($baseCurrencyCode)?>/<?=strtoupper($inCurrency)?> за последние 5 дней:
         <ul class="list-group">
         <?php
-            $historyArr = $selectedCurrency->getHistoryArr(strtoupper($inCurrency));
+            $historyArr = $selectedCurrency->getHistoryArr($inCurrency);
             foreach ($historyArr as $date => $value) {
+                $switchedTo = new SwitchCodeGlyp($baseCurrencyCode, $inCurrency);
                 ?>
                 <li class="list-group-item">
                     <strong><?= $date ?></strong>:<br>
-                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrencyCode)?>" aria-hidden="true"></span> = <?=$value?>
-                    <span class="glyphicon glyphicon-<?=strtolower($inCurrency)?>" aria-hidden="true"></span>
+                    1<span class="glyphicon glyphicon-<?=strtolower($switchedTo->glyphiconBase)?>" aria-hidden="true"><?=$switchedTo->base?></span> = <?=$value?>
+                    <span class="glyphicon glyphicon-<?=strtolower($switchedTo->glyphicon)?>" aria-hidden="true"><?=$switchedTo->in?></span>
                 </li>
                 <?php
             }

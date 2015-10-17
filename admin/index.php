@@ -3,14 +3,14 @@ require(__DIR__ . '/../apps/core.php');
 $currencyData = new CurrencyData;
 $arrCurrencies = $currencyData->getArrCurrencies();
 $arrCurrenciesFromApi = Currency::getArrCurrenciesFromApi();
-$eee = new CurrencyData;
+$addDel = new CurrencyData;
 if ( isset($_GET['add']) ) {
-    $eee->addCurrency($_GET['add']);
+    $addDel->addCurrency($_GET['add']);
     header('location: /admin/index.php');
 }
 elseif ( isset($_GET['del']) ) {
     if ($_COOKIE['currency'] == $_GET['del'] ) setcookie('currency', 'USD', time()+ 60*60*24*30, '/');
-    $eee->delCurrency($_GET['del']);
+    $addDel->delCurrency($_GET['del']);
     header('location: /admin/index.php');
 }
 ?>
@@ -31,14 +31,16 @@ elseif ( isset($_GET['del']) ) {
         <ul class="nav nav-pills">
             <?php
             foreach ($arrCurrencies as $currencyCode) {
+
+                $getCurrencyCode = $currencyCode;
+
+                if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';
+                else $class = '';
+
                 if ($currencyCode == 'RUB' || $currencyCode == 'USD' || $currencyCode == 'EUR' || $currencyCode == 'GBP') {
                     $glyphicon = $currencyCode;
-                    $getCurrencyCode = $currencyCode;
                     $currencyCode = '';
-                } else {
-                    $glyphicon = '';
-                    $getCurrencyCode = $currencyCode;
-                }
+                } else $glyphicon = '';
             ?>
             <li role="presentation">
                 <a href="/admin/index.php?del=<?=$getCurrencyCode?>">
@@ -58,14 +60,13 @@ elseif ( isset($_GET['del']) ) {
             <?php
             $arrResult = array_diff($arrCurrenciesFromApi, $arrCurrencies);
             foreach ($arrResult as $currencyCode) {
+
+                $getCurrencyCode = $currencyCode;
+
                 if ($currencyCode == 'RUB' || $currencyCode == 'USD' || $currencyCode == 'EUR' || $currencyCode == 'GBP') {
                     $glyphicon = $currencyCode;
-                    $getCurrencyCode = $currencyCode;
                     $currencyCode = '';
-                } else {
-                    $glyphicon = '';
-                    $getCurrencyCode = $currencyCode;
-                }
+                } else $glyphicon = '';
             ?> 
             <li role="presentation">
                 <a href="/admin/index.php?add=<?=$getCurrencyCode?>">

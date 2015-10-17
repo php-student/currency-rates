@@ -18,6 +18,7 @@ class History {
             $api = "http://api.fixer.io/{$day}?base={$baseCurrencyCode}";
             $json_string = file_get_contents($api);
             $ar = json_decode($json_string, true);
+            $day = date('d.m.y', strtotime($day));
             if ( $ar['rates'][$inCurrency] ) $result[$day] = $ar['rates'][$inCurrency];
             $i++;
         }

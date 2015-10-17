@@ -3,7 +3,6 @@ require( __DIR__ . '/app/core.php');
 $thisCurrency = getCurrency();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

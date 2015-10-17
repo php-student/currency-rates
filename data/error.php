@@ -5,9 +5,14 @@
  * Date: 16.10.2015
  * Time: 22:32
  */
-
-$message = isset($_GET['404'])?'Случилось страшное и мы ничего не нашли!. <br> . Ищите по новой':'';
-$message = isset($_GET['500'])?'Что то не работает и мы не знаем что, но обязательно узнаем. <br>':'';
+$code = $_SERVER['argv'][0];
+if($code==404){
+    $message = 'Ничего страшного не случилось, вы видимо пришли не туда!
+<br><br><br> Возвращайтесь на главную страницу!';
+}
+if($code==500){
+$message = 'Что то не работает и мы не знаем что, но обязательно узнаем <br><br><br> Зайдите позже, мы скоро все исправим!';
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,23 +27,10 @@ $message = isset($_GET['500'])?'Что то не работает и мы не �
 <body>
 <div class="container">
     <div class="row">
-        Ошибка!!!
         <ul class="nav nav-pills">
                 <li role="presentation" class="active" >
                     <a href="../">
-                        <span class="glyphicon" aria-hidden="true"><?php echo 'Случилось страшное и мы ничего не нашли! <br><br><br> Возвращайтесь на главную!';?></span>
+                        <span class="glyphicon" aria-hidden="true"><?php echo "$message";?></span>
                     </a>
                 </li>
-            <!--
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
-                </a>
-            </li>
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
-                </a>
-            </li>
-            -->
         </ul>

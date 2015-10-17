@@ -39,12 +39,6 @@ echo currencyExchange($baseCurrency, $currency);
                 <?php
             }
             ?>
-            <!--
-            <li class="list-group-item">
-                1<span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true"></span> = 0.92<span class="glyphicon glyphicon-eur" aria-hidden="true"></span>
-                <br><a href="#">курс за последние 5 дней</a>
-            </li>
-            -->
         </ul>
 
         <br>
@@ -57,7 +51,7 @@ echo currencyExchange($baseCurrency, $currency);
         <form method="post" action="/">
             <div class="col-xs-2">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="value" placeholder="<?=$_POST['value']?>">
+                    <input type="text" id="count-value" class="form-control" name="value" placeholder="<?=$_POST['value']?>">
                     <span class="input-group-addon">
                        <span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true"></span>
                     </span>
@@ -68,7 +62,7 @@ echo currencyExchange($baseCurrency, $currency);
             </div>
             <div class="col-xs-2">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="<?=$_POST['value']*currencyExchange($baseCurrency, 'RUB')?>" disabled>
+                    <input type="text" class="form-control" id="result" disabled>
                     <span class="input-group-addon">
 
                         <span class="glyphicon glyphicon-rub" aria-hidden="true"></span>
@@ -76,9 +70,17 @@ echo currencyExchange($baseCurrency, $currency);
                 </div>
             </div>
             <div class="col-xs-5">
-                <input type="submit" class="btn btn-default" value="Посчитать">
+                <input id="count-button" type="submit" class="btn btn-default" value="Посчитать">
             </div>
         </form>
+        <script>
+            $('#count-button').click(function(){
+                $.post("/data/count.php?baseCurrency=<?=$baseCurrency?>",{value: $('#count-value').val()},function( data ) {
+                    $('#result').val(data);
+                });
+                return false;
+            });
+        </script>
     </div>
 </div>
 </body>

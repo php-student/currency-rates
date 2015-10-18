@@ -14,7 +14,7 @@ require( __DIR__ . '/app/core.php');
 <div class="container">
     <div class="row">
         <?php
-        include "data/base.txt";
+        include "data/base.php";
         ?>
 
         <br>

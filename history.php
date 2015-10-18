@@ -7,6 +7,8 @@ Helper::set_currency($base_currency);
 $currency_repo=(new CurrencyRepo())->getCurrency();
 
 if(isset($_GET['days']) && isset($_GET['cur'])){
+    $days=$_GET['days'];
+    $cur=$_GET['cur'];
     $curr_history=(new ApiRepo())->getCurrencyHistory($_GET['days'],$_GET['cur'],$base_currency);
 }
 ?>

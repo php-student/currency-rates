@@ -14,3 +14,12 @@ function currencyExchange($CurrentValue, $curr){
 	}
 	else return 1;
 }
+function currencyExchange5 ($CurrentValue, $curr, $date){
+    if($curr !=$CurrentValue){
+        $api = 'http://api.fixer.io/latest?';
+        $json = file_get_contents($api .'base='. $CurrentValue . '&date=' . $date);
+        $data = json_decode($json, 1);
+        return round($data['rates'][$curr], 2);
+    }
+    else return 1;
+}

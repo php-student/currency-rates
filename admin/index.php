@@ -37,7 +37,7 @@ elseif ( isset($_GET['del']) && !empty($_GET['del']) ) {
 
                 $getCurrencyCode = $currencyCode;
 
-                if ($currencyCode !== 'EUR') $link="/admin/index.php?del={$getCurrencyCode}";
+                if ($currencyCode !== 'EUR' && $currencyCode !== 'USD' && $currencyCode !== 'RUB') $link="/admin/index.php?del={$getCurrencyCode}";
                 else $link='#';
 
                 if ( $currencyCode ==  $baseCurrencyCode) $class = 'class="active"';

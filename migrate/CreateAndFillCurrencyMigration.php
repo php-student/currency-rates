@@ -9,7 +9,7 @@
 class CreateAndFillCurrencyMigration implements IMigration
 {
     public function up() {
-        DB::getConnection()->exec("CREATE TABLE IF NOT EXISTS `curency` (
+        DB::getConnection()->exec("CREATE TABLE IF NOT EXISTS `currency` (
   `id` int(2) NOT NULL AUTO_INCREMENT,
   `name` varchar(4) NOT NULL,
   PRIMARY KEY (`id`),
@@ -17,7 +17,7 @@ class CreateAndFillCurrencyMigration implements IMigration
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
         ");
 
-        DB::getConnection()->exec("INSERT INTO `curency` (`id`, `name`) VALUES
+        DB::getConnection()->exec("INSERT INTO `currency` (`id`, `name`) VALUES
 (2, 'EUR'),
 (3, 'RUB'),
 (1, 'USD');
@@ -28,7 +28,7 @@ class CreateAndFillCurrencyMigration implements IMigration
 
     public function down() {
         DB::getConnection()->exec("
-        DROP TABLE IF EXISTS `curency`
+        DROP TABLE IF EXISTS `currency`
         ");
 
         return true;

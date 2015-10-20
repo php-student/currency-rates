@@ -11,9 +11,9 @@ class Migrate
     public static function run($name, $action) {
         $m = new $name();
         if( $m->$action() ) {
-            echo "{$name} {$action} success <br>";
+            echo "{$name} {$action} success \n";
         } else {
-            echo "{$name} {$action} fail <br>";
+            echo "{$name} {$action} fail \n";
         }
     }
 }

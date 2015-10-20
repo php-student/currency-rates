@@ -1,5 +1,4 @@
-<?php
-/**
+<?php /**
  * Created by PhpStorm.
  * User: Admin
  * Date: 18.10.2015
@@ -17,5 +16,5 @@ isset($options['name'])
     $m = new Migrate();
     $m->run($name, $action);
 } else {
-    echo "use command: migrate.php --name=NAME [-d]\n";
+    echo "use command: migrate.php --name=NAME [-d]";
 }

@@ -6,25 +6,21 @@
  * Time: 14:58
  */
 
-class CreateAndFillCityMigration implements IMigration
+class CreateAndFillCurrencyMigration implements IMigration
 {
     public function up() {
-        DB::getConnection()->exec("
-        CREATE TABLE IF NOT EXISTS `city` (
-          `code` varchar(10) NOT NULL,
-          `name` varchar(256) NOT NULL,
-          `lat` float NOT NULL,
-          `long` float NOT NULL
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        DB::getConnection()->exec("CREATE TABLE IF NOT EXISTS `curency` (
+  `id` int(2) NOT NULL AUTO_INCREMENT,
+  `name` varchar(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
         ");
 
-        DB::getConnection()->exec("
-        INSERT INTO `city` (`code`, `name`, `lat`, `long`) VALUES
-        ('nsk', '�����������', 55.1, 82.55),
-        ('krsk', '����������', 56.01, 93.04),
-        ('brnl', '�������', 53.2, 83.46),
-        ('tsk', '�����', 56.29, 84.57),
-        ('nzsk', '������������', 53.44, 87.05);
+        DB::getConnection()->exec("INSERT INTO `curency` (`id`, `name`) VALUES
+(2, 'EUR'),
+(3, 'RUB'),
+(1, 'USD');
         ");
 
         return true;
@@ -32,7 +28,7 @@ class CreateAndFillCityMigration implements IMigration
 
     public function down() {
         DB::getConnection()->exec("
-        DROP TABLE IF EXISTS `city`
+        DROP TABLE IF EXISTS `curency`
         ");
 
         return true;

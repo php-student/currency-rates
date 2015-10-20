@@ -1,5 +1,6 @@
 <?php
 require( __DIR__ . '/app/core.php');
+//var_dump(strtolower($baseCurrency));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,14 +17,8 @@ require( __DIR__ . '/app/core.php');
         <?php
         include "data/base.php";
         ?>
-
         <br>
-
         Текущий курс:
-        <?php
-        $currency = 'eur';
-echo currencyExchange($baseCurrency, $currency);
-?>
         <ul class="list-group">
             <?php
             foreach($currenses as $c) {
@@ -32,8 +27,8 @@ echo currencyExchange($baseCurrency, $currency);
                 }
                 ?>
                 <li class="list-group-item">
-                    1<span class="glyphicon glyphicon-<?= $baseCurrency ?>" aria-hidden="true"></span> = <?=currencyExchange($baseCurrency, $c)?><span
-                        class="glyphicon glyphicon-<?= $c ?>" aria-hidden="true"></span>
+                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrency)?>" aria-hidden="true"></span> = <?=currencyExchange($baseCurrency, $c)?><span
+                        class="glyphicon glyphicon-<?=strtolower($c)?>" aria-hidden="true"></span>
                     <br><a href="/history.php?thisCurrency=<?=$c?>">курс за последние 5 дней</a>
                 </li>
                 <?php
@@ -53,7 +48,7 @@ echo currencyExchange($baseCurrency, $currency);
                 <div class="input-group">
                     <input type="text" id="count-value" class="form-control" name="value" placeholder="<?=$_POST['value']?>">
                     <span class="input-group-addon">
-                       <span class="glyphicon glyphicon-<?=$baseCurrency?>" aria-hidden="true"></span>
+                       <span class="glyphicon glyphicon-<?=strtolower($baseCurrency)?>" aria-hidden="true"></span>
                     </span>
                 </div>
             </div>

@@ -19,7 +19,7 @@ $thisCurrency = getCurrency();
         <ul class="nav nav-pills">
             <?php
             foreach($currenses as $c){
-                if($c == $thisCurrency){
+                if($c == strtoupper($thisCurrency)){
                     continue;
                 }
                 $a = '';
@@ -27,7 +27,7 @@ $thisCurrency = getCurrency();
                 ?>
                 <li role="presentation" class="<?=$a?>" >
                     <a href="/history.php?baseCurrency=<?=$c?>">
-                        <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-<?=strtolower($c)?>" aria-hidden="true"></span>
                     </a>
                 </li>
                 <?php
@@ -44,8 +44,8 @@ $thisCurrency = getCurrency();
                 ?>
                 <li class="list-group-item">
                     <strong><?=$lastday?></strong>:<br>
-                    1<span class="glyphicon glyphicon-<?=$baseCurrency ?>" aria-hidden="true"></span><?=lastCurrencyExchange($baseCurrency,$thisCurrency,$lastday)?><span
-                        class="glyphicon glyphicon-<?=$thisCurrency?>" aria-hidden="true"></span>
+                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrency)?>" aria-hidden="true"></span><?=lastCurrencyExchange(strtoupper($baseCurrency),strtoupper($thisCurrency),$lastday)?><span
+                        class="glyphicon glyphicon-<?=strtolower($thisCurrency)?>" aria-hidden="true"></span>
                 </li>
                 <?php
             }

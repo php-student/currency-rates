@@ -7,7 +7,7 @@
                 ?>
                 <li role="presentation" class="<?=$a?>" >
                     <a href="/?baseCurrency=<?=$c?>">
-                        <span class="glyphicon glyphicon-<?=$c?>" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-<?=strtolower($c)?>" aria-hidden="true"></span>
                     </a>
                 </li>
                 <?php

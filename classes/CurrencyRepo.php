@@ -22,4 +22,35 @@ class CurrencyRepo{
         }
         return $currencies;
     }
+    public function addCurrency($newCurrency){
+        $currencies=$this->getAllCurrency();
+        if(preg_match("/^[a-zA-Z]{3,3}$/", $newCurrency)){
+            $currency = strtoupper($newCurrency);
+            foreach($currencies as $existCurrency){
+             if($currency==$existCurrency->currency){
+                 $_SESSION['error'] = 'Такая валюта уже есть!';
+                 return false;
+             }
+            }
+            $json= file_get_contents("http://api.fixer.io/latest?base=USD");
+            $apiCurrencies=json_decode($json,1);
+            if(in_array($currency,$apiCurrencies['rates'])){
+                $table=self::TABLE_NAME;
+            try {
+                $this->_conn->query("INSERT INTO {$table} (currency) VALUES ('{$newCurrency}')");
+            }catch (Exception $e){
+                return false;
+            }
+            }
+            else{
+                $_SESSION['error'] = 'Такой валюты нет в API!';
+                return false;
+            }
+
+        }
+        else {
+            $_SESSION['error'] = 'Неверный ввод!';
+            return false;
+        }
+    }
 }

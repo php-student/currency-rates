@@ -31,6 +31,37 @@ require( __DIR__ . '/app/core.php');
             ?>
         </ul>
         <br>
+
+        Добавить валюту<br>
+        <form method="post" action="/">
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <input type="text" id="addCurrency" class="form-control" name="newCurrency" placeholder="<?=$_POST['newCurrency']?>">
+                 <!--   <span class="input-group-addon">
+                       <span class="glyphicon glyphicon-<?//=strtolower($baseCurrency)?>" aria-hidden="true"></span>
+                    </span>
+                    -->
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <input id="addbutton" type="submit" class="btn btn-default" value="Добавить">
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="message" disabled>
+
+                </div>
+            </div>
+        </form>
+            <br><br><br>
+        <script>
+            $('#addbutton').click(function(){
+                $.post("/data/addCurrency.php",{value: $('#addCurrency').val()},function( data ) {
+                    $('#message').val(data);
+                });
+                return false;
+            });
+        </script>
         Текущий курс:
         <ul class="list-group">
             <?php

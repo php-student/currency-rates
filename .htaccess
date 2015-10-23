@@ -1,3 +1,4 @@
 #DirectoryIndex itsTheFirstPageofSite.php
 ErrorDocument 404 /data/error.php?404
 ErrorDocument 500 /data/error.php?500
+ErrorDocument 403 /data/error.php?403

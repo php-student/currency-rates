@@ -1,6 +1,6 @@
 <?php
 require( __DIR__ . '/app/core.php');
-$thisCurrency = getCurrency();
+$thisCurrency = Currency::getCurrency();
 ?>
 
 <!DOCTYPE html>
@@ -18,16 +18,16 @@ $thisCurrency = getCurrency();
         Базовая валюта:
         <ul class="nav nav-pills">
             <?php
-            foreach($currenses as $c){
-                if($c == strtoupper($thisCurrency)){
+            foreach($currencies as $c){
+                if($c->currency == strtoupper($thisCurrency)){
                     continue;
                 }
                 $a = '';
-                $a = $c==$baseCurrency ? 'active' : '';
+                $a = $c->currency==$baseCurrency ? 'active' : '';
                 ?>
                 <li role="presentation" class="<?=$a?>" >
-                    <a href="/history.php?baseCurrency=<?=$c?>">
-                        <span class="glyphicon glyphicon-<?=strtolower($c)?>" aria-hidden="true"></span>
+                    <a href="/history.php?baseCurrency=<?=$c->currency?>">
+                        <span class="glyphicon glyphicon-<?=strtolower($c->currency)?>" aria-hidden="true"></span>
                     </a>
                 </li>
                 <?php
@@ -40,11 +40,11 @@ $thisCurrency = getCurrency();
         <ul class="list-group">
             <?php
 
-            foreach(last5days() as $lastday) {
+            foreach(Currency::last5days() as $lastDay) {
                 ?>
                 <li class="list-group-item">
-                    <strong><?=$lastday?></strong>:<br>
-                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrency)?>" aria-hidden="true"></span><?=lastCurrencyExchange(strtoupper($baseCurrency),strtoupper($thisCurrency),$lastday)?><span
+                    <strong><?=$lastDay?></strong>:<br>
+                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrency)?>" aria-hidden="true"></span><?=Currency::lastCurrencyExchange(strtoupper($baseCurrency),strtoupper($thisCurrency),$lastDay)?><span
                         class="glyphicon glyphicon-<?=strtolower($thisCurrency)?>" aria-hidden="true"></span>
                 </li>
                 <?php

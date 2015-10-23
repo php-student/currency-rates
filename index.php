@@ -14,22 +14,35 @@ require( __DIR__ . '/app/core.php');
 <body>
 <div class="container">
     <div class="row">
-        <?php
-        include "data/base.php";
-        ?>
+        Базовая валюта:
+        <ul class="nav nav-pills">
+            <?php
+            foreach($currencies as $c){
+                $a = '';
+                $a = $c->currency==$baseCurrency ? 'active' : '';
+                ?>
+                <li role="presentation" class="<?=$a?>" >
+                    <a href="/?baseCurrency=<?=$c->currency?>">
+                        <span class="glyphicon glyphicon-<?=strtolower($c->currency)?>" aria-hidden="true"></span>
+                    </a>
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
         <br>
         Текущий курс:
         <ul class="list-group">
             <?php
-            foreach($currenses as $c) {
-                if($c == $baseCurrency){
+            foreach($currencies as $c) {
+                if($c->currency == $baseCurrency){
                     continue;
                 }
                 ?>
                 <li class="list-group-item">
-                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrency)?>" aria-hidden="true"></span> = <?=currencyExchange($baseCurrency, $c)?><span
-                        class="glyphicon glyphicon-<?=strtolower($c)?>" aria-hidden="true"></span>
-                    <br><a href="/history.php?thisCurrency=<?=$c?>">курс за последние 5 дней</a>
+                    1<span class="glyphicon glyphicon-<?=strtolower($baseCurrency)?>" aria-hidden="true"></span> = <?=Currency::currencyExchange($baseCurrency, $c->currency)?><span
+                        class="glyphicon glyphicon-<?=strtolower($c->currency)?>" aria-hidden="true"></span>
+                    <br><a href="/history.php?thisCurrency=<?=$c->currency?>">курс за последние 5 дней</a>
                 </li>
                 <?php
             }

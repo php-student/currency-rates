@@ -12,9 +12,14 @@ class CurrencyRepo{
     public function __construct(){
         $this->_conn = DB::getConnection();
     }
-    public function getCurrency(){
+    public function getAllCurrency(){
         $table=self::TABLE_NAME;
         $currencies=array();
-        $quary=$this->_conn->query("SELECT * FROM {$table}")
+        $q=$this->_conn->query("SELECT * FROM {$table}",PDO::FETCH_ASSOC);
+ //       $query->setFetchMode(PDO::FETCH_ASSOC);
+        while($result = $q->fetch()){
+            $currencies[$result['id']] = new Currency($result['name']);
+        }
+        return $currencies;
     }
 }

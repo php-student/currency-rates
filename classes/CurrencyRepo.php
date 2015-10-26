@@ -34,13 +34,19 @@ class CurrencyRepo{
             }
             $json= file_get_contents("http://api.fixer.io/latest?base=USD");
             $apiCurrencies=json_decode($json,1);
-            if(in_array($currency,$apiCurrencies['rates'])){
+            $apiCurrencies = array_keys($apiCurrencies['rates']);
+            if(in_array($currency,$apiCurrencies)){
                 $table=self::TABLE_NAME;
-            try {
-                $this->_conn->query("INSERT INTO {$table} (currency) VALUES ('{$newCurrency}')");
-            }catch (Exception $e){
-                return false;
-            }
+ //           try {
+                $q=$this->_conn->prepare("INSERT INTO {$table} (name) VALUES ('{$currency}')");
+                $q->execute();
+                echo $currency;
+                return true;
+ //           }catch (Exception $e){
+ //               echo 'Excepción capturada: ',$e->getMessage();
+//                return false;
+ //           }
+
             }
             else{
                 $_SESSION['error'] = 'Такой валюты нет в API!';

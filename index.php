@@ -18,12 +18,13 @@ require( __DIR__ . '/app/core.php');
         <ul class="nav nav-pills">
             <?php
             foreach($currencies as $c){
+                $curSymbol = Currency::isCurrencySymbol($c->currency);
                 $a = '';
                 $a = $c->currency==$baseCurrency ? 'active' : '';
                 ?>
                 <li role="presentation" class="<?=$a?>" >
                     <a href="/?baseCurrency=<?=$c->currency?>">
-                        <span class="glyphicon glyphicon-<?=strtolower($c->currency)?>" aria-hidden="true"></span>
+                        <? if($curSymbol){?><span class="glyphicon glyphicon-<?=$curSymbol?>" aria-hidden="true"></span><?} else echo $c->currency?>
                     </a>
                 </li>
                 <?php
@@ -48,13 +49,13 @@ require( __DIR__ . '/app/core.php');
             </div>
             <div class="col-xs-2">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="message" disabled>
+                    <input type="text" class="form-control" id="message" placeholder="<?=$_POST['newCurrency']?>" disabled>
 
                 </div>
             </div>
         </form>
             <br><br><br>
-        <script>
+       <script>
             $('#addbutton').click(function(){
                 $.post("/data/addCurrency.php",{value: $('#addCurrency').val()},function( data ) {
                     $('#message').val(data);

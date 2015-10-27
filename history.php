@@ -1,5 +1,9 @@
 <?php
 require( __DIR__ . '/app/core.php');
+$baseCurrency = Currency::getBaseCurrency();
+Currency::setBaseCurrency($baseCurrency);
+$currencies = new CurrencyRepo();
+$currencies = $currencies->getAllCurrency();
 $thisCurrency = Currency::getCurrency();
 ?>
 

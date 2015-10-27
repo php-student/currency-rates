@@ -6,10 +6,7 @@
  * Time: 17:04
  */
 session_start();
-$baseCurrency = Currency::getBaseCurrency();
-Currency::setBaseCurrency($baseCurrency);
-$currencies = new CurrencyRepo();
-$currencies = $currencies->getAllCurrency();
+
 function __autoload($class_name) {
     $arPath = array(
         __DIR__ . "/../classes",

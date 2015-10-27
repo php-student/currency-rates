@@ -1,6 +1,10 @@
 <?php
 require( __DIR__ . '/app/core.php');
-//var_dump(strtolower($baseCurrency));
+$baseCurrency = Currency::getBaseCurrency();
+Currency::setBaseCurrency($baseCurrency);
+$currencies = new CurrencyRepo();
+$currencies = $currencies->getAllCurrency();
+var_dump(strtolower($baseCurrency));
 ?>
 <!DOCTYPE html>
 <html lang="en">
